@@ -8,7 +8,7 @@ function onReady() {
     toDos.push({
       title: newToDoText.value,
       complete: false,
-      id: id.value
+      id: id
     });///ends ToDos
 
     id++;
@@ -31,7 +31,6 @@ function onReady() {
       newLi.appendChild(checkbox);
       newLi.appendChild(deleteBtn);
         deleteBtn.addEventListener('click', function(){
-          toDoList.removeChild(newLi);
           deleteToDo(toDo.id);
           renderTheUI();
         });//ends addEventListener
