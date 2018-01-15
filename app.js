@@ -1,43 +1,54 @@
 function onReady() {
-  const addToDoForm = document.getElementById('addToDoForm');//form
-  const newToDoText = document.getElementById('newToDoText');//input
-  const toDoList = document.getElementById('toDoList');//ul
+  let id = 0;
+  let toDos = [];
+
+  function createNewToDo() {
+    if(!newToDoText.value){return;}
+
+    toDos.push({
+      title: newToDoText.value,
+      complete: false,
+      id: id.value
+    });///ends ToDos
+
+    id++;
+    newToDoText.value = '';
+    renderTheUI();
+  }//ends createNewToDo function
+
+  function renderTheUI(){
+    const toDoList = document.getElementById('toDoList');
+    toDoList.textContent = '';
+    toDos.forEach(function(toDo){
+      const newLi = document.createElement('li');
+      const checkbox = document.createElement('input');
+      const deleteBtn = document.createElement('input');
+      checkbox.type = "checkbox";
+      deleteBtn.type = "button";
+      deleteBtn.value = "delete";
+      newLi.textContent = toDo.title;
+      toDoList.appendChild(newLi);
+      newLi.appendChild(checkbox);
+      newLi.appendChild(deleteBtn);
+        deleteBtn.addEventListener('click', function(){
+          toDoList.removeChild(newLi);
+          deleteToDo(toDo.id);
+          renderTheUI();
+        });//ends addEventListener
+    });//ends .forEach
+  }//ends renderTheUI
+
+  function deleteToDo (id){
+    toDos = toDos.filter(item => item.id !== id);
+  }//compares the id of each item with the id parameter
 
   addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
-
-    let title = newToDoText.value;// get the text
-
-    let newLi = document.createElement('li');// creat a new li
-    let deleteBtn = document.createElement('input');// create a button
-    let checkbox = document.createElement('input');// create a new input
-
-
-    checkbox.type = "checkbox";// set the input's type to checkbox
-    deleteBtn.type = "button";// set the input's type to button
-
-    deleteBtn.value = 'delete';// Text content into the delete button
-    deleteBtn.setAttribute("id","deleteBtn");
-
-    newLi.textContent = title;// set the title
-
-    newLi.appendChild(checkbox);// attach the checkbox to the li
-    newLi.appendChild(deleteBtn);// attach the deleteBtn to the li
-
-    toDoList.appendChild(newLi);// attach the li to the ul
-
-    newToDoText.value = '';// empty the input
-
-  // document.getElementById('deleteBtn').onclick = function(){
-  //   newLi.remove('li');
-  // };//bad code = will only delete the first li???
-
-  });//end addToDoForm.addEventListener
-}//end function onReady
+    createNewToDo();
+    newToDoText.value = '';
+  });//ends addEventListener
+}//ends onReady function
 
 window.onload = function() {
-  // alert("The window has been loaded!");
   onReady();
-
-
-};
+};//ends onload function
