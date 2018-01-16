@@ -28,9 +28,9 @@ function onReady() {
 
     newToDoText.value = '';// empty the input
 
-  // document.getElementById('deleteBtn').onclick = function(){
-  //   newLi.remove('li');
-  // };//bad code = will only delete the first li???
+     deleteBtn.addEventListener('click', function(){
+       toDoList.removeChild(newLi);
+      });//ends addEventListener
 
   });//end addToDoForm.addEventListener
 }//end function onReady
